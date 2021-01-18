@@ -57,6 +57,7 @@ class _MyAppState extends State<MyApp> {
           actions: [
             IconButton(icon: Icon(Icons.refresh), onPressed: fetchMongo)
           ],
+          leading: IconButton(icon: Icon(Icons.menu), onPressed: null),
         ),
         body: Column(
           children: [
@@ -80,9 +81,20 @@ class _MyAppState extends State<MyApp> {
                     )
                   : isFetching
                       ? Center(
-                          child: Text(
-                            'Szukanie ofert...',
-                            style: TextStyle(fontSize: 18),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation(Colors.blue),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                'Szukanie ofert...',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
                           ),
                         )
                       : Center(

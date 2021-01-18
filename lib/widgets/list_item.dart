@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import '../models/offer.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+
+import '../models/offer.dart';
+import '../screens/offer_screen.dart';
 
 class ListItem extends StatelessWidget {
   final Offer offer;
@@ -24,36 +26,50 @@ class ListItem extends StatelessWidget {
     }
   }
 
+  void tapHandler(BuildContext ctx) {
+    Navigator.of(ctx).push(
+      MaterialPageRoute(
+        builder: (_) => OfferScreen(offer.title, offer.link),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final date = DateTime.parse(offer.date);
     initializeDateFormatting('pl_PL', null);
 
     return Container(
-      key: Key(offer.id),
-      height: 120,
-      width: double.infinity,
-      margin: EdgeInsets.symmetric(vertical: 5),
-      decoration: BoxDecoration(
-        border: Border(
-          left: BorderSide(color: sourceColor, width: 10),
-        ),
-        color: Colors.grey[900],
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            offer.title,
-            style: TextStyle(fontSize: 17),
+      margin: EdgeInsets.only(bottom: 10),
+      child: InkWell(
+        key: Key(offer.id),
+        onTap: () => tapHandler(context),
+        splashColor: sourceColor,
+        child: Ink(
+          height: 120,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            border: Border(
+              left: BorderSide(color: sourceColor, width: 10),
+            ),
+            color: Colors.grey[900],
           ),
-          Text(DateFormat('D MMMM y', 'pl_PL').format(date)),
-          Text(offer.place.length > 50
-              ? offer.place.substring(0, 50) + '...'
-              : offer.place)
-        ],
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                offer.title,
+                style: TextStyle(fontSize: 17),
+              ),
+              Text(DateFormat('D MMMM y', 'pl_PL').format(date)),
+              Text(offer.place.length > 50
+                  ? offer.place.substring(0, 50) + '...'
+                  : offer.place)
+            ],
+          ),
+        ),
       ),
     );
   }
