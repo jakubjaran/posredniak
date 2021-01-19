@@ -1,11 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as Mongo;
-import 'package:posredniak_app/screens/saved_offers_screen.dart';
 
 import './SECRET.dart';
 import './models/offer.dart';
 import './widgets/list_item.dart';
 import './widgets/sidedrawer.dart';
+import './screens/offer_screen.dart';
+import './screens/saved_offers_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,13 +23,27 @@ class _MyAppState extends State<MyApp> {
   List<Offer> offers = [];
   List<String> keywords = ['DORADCA', 'HANDLOWY'];
   List<Offer> filteredOffers = [];
+  List<Offer> savedOffers = [];
 
   var isFiltered = false;
   var isFetching = false;
 
+  Offer parseOffer(element) {
+    var offer = Offer(
+      title: element['title'],
+      date: element['date'],
+      link: element['link'],
+      place: element['place'],
+      source: element['source'],
+      json: element,
+    );
+    return offer;
+  }
+
   Future<void> fetchMongo() async {
     setState(() {
       offers = [];
+      savedOffers = [];
       isFetching = true;
       isFiltered = false;
     });
@@ -34,26 +51,28 @@ class _MyAppState extends State<MyApp> {
     var db = await Mongo.Db.create(MONGO_URL);
     await db.open();
 
-    var col = db.collection('offers');
-    col.find().forEach((element) {
-      var offer = Offer(
-        id: element['__id'],
-        title: element['title'],
-        date: element['date'],
-        link: element['link'],
-        place: element['place'],
-        source: element['source'],
-      );
+    var offersCol = db.collection('offers');
+    offersCol.find().forEach((element) {
+      var offer = parseOffer(element);
       setState(() {
-        offers = [...offers, offer];
-        isFetching = false;
+        offers.add(offer);
       });
+    });
+
+    var savedOffersCol = db.collection('savedOffers');
+    savedOffersCol.find().forEach((element) {
+      var offer = parseOffer(element);
+      setState(() {
+        savedOffers.add(offer);
+      });
+    });
+
+    setState(() {
+      isFetching = false;
     });
   }
 
   void filterOffers() {
-    List<Offer> filtered = [];
-
     setState(() {
       filteredOffers = [];
     });
@@ -62,15 +81,13 @@ class _MyAppState extends State<MyApp> {
       offers.forEach((offer) {
         keywords.forEach((keyword) {
           if (offer.title.toUpperCase().contains(keyword)) {
-            if (!filtered.contains(offer)) {
-              filtered.add(offer);
+            if (!filteredOffers.contains(offer)) {
+              setState(() {
+                filteredOffers.add(offer);
+              });
             }
           }
         });
-      });
-
-      setState(() {
-        filteredOffers = filtered;
       });
     }
   }
@@ -80,6 +97,33 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       isFiltered = val;
     });
+  }
+
+  void saveOffer(Offer offer) {
+    if (savedOffers.contains(offer)) {
+      setState(() {
+        savedOffers.remove(offer);
+        saveOfferMongo(offer, true);
+      });
+    } else {
+      setState(() {
+        savedOffers.add(offer);
+        saveOfferMongo(offer, false);
+      });
+    }
+  }
+
+  Future<void> saveOfferMongo(Offer offer, bool remove) async {
+    var db = await Mongo.Db.create(MONGO_URL);
+    await db.open();
+
+    var savedCol = db.collection('savedOffers');
+
+    if (remove) {
+      savedCol.remove(offer.json);
+    } else {
+      savedCol.insert(offer.json);
+    }
   }
 
   @override
@@ -97,7 +141,8 @@ class _MyAppState extends State<MyApp> {
           backgroundColor: Colors.black,
           scaffoldBackgroundColor: Colors.black),
       routes: {
-        '/saved-offers': (ctx) => SavedOffersScreen(filteredOffers),
+        '/saved-offers': (ctx) => SavedOffersScreen(savedOffers),
+        '/offer': (ctx) => OfferScreen(saveOffer, savedOffers),
       },
       home: Scaffold(
         appBar: AppBar(

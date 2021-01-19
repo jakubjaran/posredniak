@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import '../models/offer.dart';
-import '../screens/offer_screen.dart';
 
 class ListItem extends StatelessWidget {
   final Offer offer;
@@ -27,10 +26,9 @@ class ListItem extends StatelessWidget {
   }
 
   void tapHandler(BuildContext ctx) {
-    Navigator.of(ctx).push(
-      MaterialPageRoute(
-        builder: (_) => OfferScreen(offer.title, offer.link),
-      ),
+    Navigator.of(ctx).pushNamed(
+      '/offer',
+      arguments: offer,
     );
   }
 
@@ -42,7 +40,7 @@ class ListItem extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 10),
       child: InkWell(
-        key: Key(offer.id),
+        key: Key(offer.link),
         onTap: () => tapHandler(context),
         splashColor: sourceColor,
         child: Ink(
