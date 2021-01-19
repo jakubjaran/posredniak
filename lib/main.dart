@@ -3,6 +3,7 @@ import 'package:mongo_dart/mongo_dart.dart' as Mongo;
 
 import './models/offer.dart';
 import './widgets/list_item.dart';
+import './SECRET.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,17 +16,20 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   List<Offer> offers = [];
+  List<String> keywords = ['DORADCA', 'HANDLOWY'];
+  List<Offer> filteredOffers = [];
 
+  var isFiltered = false;
   var isFetching = false;
 
   Future<void> fetchMongo() async {
     setState(() {
       offers = [];
       isFetching = true;
+      isFiltered = false;
     });
 
-    var db = await Mongo.Db.create(
-        'mongodb+srv://admin:22mpdkz10gs_@cluster0.jtv83.mongodb.net/job_scraper?retryWrites=true&w=majority');
+    var db = await Mongo.Db.create(MONGO_URL);
     await db.open();
 
     var col = db.collection('offers');
@@ -45,19 +49,72 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void filterOffers() {
+    List<Offer> filtered = [];
+
+    setState(() {
+      filteredOffers = [];
+    });
+
+    if (offers.length > 0) {
+      offers.forEach((offer) {
+        keywords.forEach((keyword) {
+          if (offer.title.toUpperCase().contains(keyword)) {
+            if (!filtered.contains(offer)) {
+              filtered.add(offer);
+            }
+          }
+        });
+      });
+
+      setState(() {
+        filteredOffers = filtered;
+      });
+    }
+  }
+
+  void toggleFilter(bool val) {
+    filterOffers();
+    setState(() {
+      isFiltered = val;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchMongo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Pośredniak',
       theme: ThemeData.dark().copyWith(
-          backgroundColor: Colors.black, scaffoldBackgroundColor: Colors.black),
+          accentColor: Colors.blue,
+          backgroundColor: Colors.black,
+          scaffoldBackgroundColor: Colors.black),
       home: Scaffold(
         appBar: AppBar(
           title: Text('Pośredniak'),
           actions: [
-            IconButton(icon: Icon(Icons.refresh), onPressed: fetchMongo)
+            Container(
+              child: Row(
+                children: [
+                  Switch(
+                    value: isFiltered,
+                    onChanged: toggleFilter,
+                    activeColor: Theme.of(context).accentColor,
+                  ),
+                  Icon(
+                    Icons.fact_check,
+                    color: isFiltered ? Colors.greenAccent : Colors.grey,
+                  ),
+                ],
+              ),
+            ),
+            IconButton(icon: Icon(Icons.refresh), onPressed: fetchMongo),
           ],
-          leading: IconButton(icon: Icon(Icons.menu), onPressed: null),
         ),
         body: Column(
           children: [
@@ -71,12 +128,19 @@ class _MyAppState extends State<MyApp> {
                                 style: TextStyle(fontSize: 18),
                               ),
                             )
-                          : ListView.builder(
-                              itemBuilder: (context, index) {
-                                return ListItem(offers[index]);
-                              },
-                              itemCount: offers.length,
-                            ),
+                          : isFiltered
+                              ? ListView.builder(
+                                  itemBuilder: (context, index) {
+                                    return ListItem(filteredOffers[index]);
+                                  },
+                                  itemCount: filteredOffers.length,
+                                )
+                              : ListView.builder(
+                                  itemBuilder: (context, index) {
+                                    return ListItem(offers[index]);
+                                  },
+                                  itemCount: offers.length,
+                                ),
                       onRefresh: fetchMongo,
                     )
                   : isFetching
