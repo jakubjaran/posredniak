@@ -11,8 +11,10 @@ class SideDrawer extends StatelessWidget {
       child: ListView(
         children: [
           DrawerHeader(
-            child: null,
-            decoration: BoxDecoration(color: Colors.grey[900]),
+            child: Center(
+              child: Text('Pośredniak', style: TextStyle(fontSize: 20)),
+            ),
+            decoration: BoxDecoration(color: Colors.indigo[300]),
           ),
           ListTile(
             onTap: () => tapHandler(context, '/saved-offers'),

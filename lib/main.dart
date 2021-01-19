@@ -101,7 +101,6 @@ class _MyAppState extends State<MyApp> {
       },
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Pośredniak'),
           actions: [
             Container(
               child: Row(
