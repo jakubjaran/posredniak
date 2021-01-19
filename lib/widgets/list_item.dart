@@ -63,7 +63,7 @@ class ListItem extends StatelessWidget {
                 offer.title,
                 style: TextStyle(fontSize: 17),
               ),
-              Text(DateFormat('D MMMM y', 'pl_PL').format(date)),
+              Text(DateFormat('d MMMM y', 'pl_PL').format(date)),
               Text(offer.place.length > 50
                   ? offer.place.substring(0, 50) + '...'
                   : offer.place)
