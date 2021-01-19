@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as Mongo;
+import 'package:posredniak_app/screens/saved_offers_screen.dart';
 
+import './SECRET.dart';
 import './models/offer.dart';
 import './widgets/list_item.dart';
-import './SECRET.dart';
+import './widgets/sidedrawer.dart';
 
 void main() {
   runApp(MyApp());
@@ -94,6 +96,9 @@ class _MyAppState extends State<MyApp> {
           accentColor: Colors.blue,
           backgroundColor: Colors.black,
           scaffoldBackgroundColor: Colors.black),
+      routes: {
+        '/saved-offers': (ctx) => SavedOffersScreen(filteredOffers),
+      },
       home: Scaffold(
         appBar: AppBar(
           title: Text('Pośredniak'),
@@ -116,6 +121,7 @@ class _MyAppState extends State<MyApp> {
             IconButton(icon: Icon(Icons.refresh), onPressed: fetchMongo),
           ],
         ),
+        drawer: SideDrawer(),
         body: Column(
           children: [
             Expanded(

@@ -12,7 +12,7 @@ class OfferScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text(title),
-          actions: [IconButton(icon: Icon(Icons.favorite), onPressed: null)],
+          actions: [IconButton(icon: Icon(Icons.bookmark), onPressed: null)],
         ),
         body: WebView(
           initialUrl: url,
