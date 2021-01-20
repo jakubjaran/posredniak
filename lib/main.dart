@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as Mongo;
+import 'package:flutter/services.dart';
 
 import './SECRET.dart';
 import './models/offer.dart';
@@ -134,6 +133,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+
     return MaterialApp(
       title: 'Pośredniak',
       theme: ThemeData.dark().copyWith(
@@ -169,63 +170,40 @@ class _MyAppState extends State<MyApp> {
         body: Column(
           children: [
             Expanded(
-              child: offers.length > 0
-                  ? RefreshIndicator(
-                      child: isFetching
-                          ? Center(
-                              child: Text(
-                                'Szukanie ofert...',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                            )
-                          : isFiltered
-                              ? ListView.builder(
-                                  itemBuilder: (context, index) {
-                                    return ListItem(filteredOffers[index]);
-                                  },
-                                  itemCount: filteredOffers.length,
-                                )
-                              : ListView.builder(
-                                  itemBuilder: (context, index) {
-                                    return ListItem(offers[index]);
-                                  },
-                                  itemCount: offers.length,
-                                ),
-                      onRefresh: fetchMongo,
+              child: isFetching
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(Colors.blue),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            'Szukanie ofert...',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ],
+                      ),
                     )
-                  : isFetching
-                      ? Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation(Colors.blue),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Text(
-                                'Szukanie ofert...',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                            ],
-                          ),
-                        )
-                      : Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Brak ofert do wyświetlenia',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              RaisedButton(
-                                onPressed: fetchMongo,
-                                child: Text('Szukaj'),
-                              )
-                            ],
-                          ),
-                        ),
+                  : RefreshIndicator(
+                      child: isFiltered
+                          ? ListView.builder(
+                              itemBuilder: (context, index) {
+                                return ListItem(filteredOffers[index]);
+                              },
+                              itemCount: filteredOffers.length,
+                            )
+                          : ListView.builder(
+                              itemBuilder: (context, index) {
+                                return ListItem(offers[index]);
+                              },
+                              itemCount: offers.length,
+                            ),
+                      onRefresh: fetchMongo,
+                    ),
             ),
           ],
         ),
