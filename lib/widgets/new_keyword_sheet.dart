@@ -17,9 +17,12 @@ class NewKeyowrdSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
+              maxLength: 20,
               controller: keywordController,
               autofocus: true,
-              decoration: InputDecoration(hintText: 'Słowo Klucz'),
+              decoration: InputDecoration(
+                hintText: 'Słowo Klucz',
+              ),
             ),
             SizedBox(
               height: 20,

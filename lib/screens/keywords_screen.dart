@@ -17,6 +17,32 @@ class KeywordsScreen extends StatelessWidget {
     );
   }
 
+  void showAlertDialog(BuildContext context, String keyword) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Jesteś pewien?'),
+        content: Text('Czy na pewno chcesz usunąć to słowo klucz?'),
+        actions: [
+          FlatButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Anuluj'),
+          ),
+          FlatButton(
+            onPressed: () {
+              removeKeyword(keyword);
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              'Usuń',
+              style: TextStyle(color: Colors.redAccent),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +67,7 @@ class KeywordsScreen extends StatelessWidget {
               title: Text(keywords[index]),
               trailing: IconButton(
                 icon: Icon(Icons.delete),
-                onPressed: () => removeKeyword(keywords[index]),
+                onPressed: () => showAlertDialog(context, keywords[index]),
               ),
             ),
           ),

@@ -181,6 +181,11 @@ class _MyAppState extends State<MyApp> {
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
         ),
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: Colors.blue,
+          selectionColor: Colors.blueAccent,
+          selectionHandleColor: Colors.blue,
+        ),
       ),
       routes: {
         '/saved-offers': (ctx) => SavedOffersScreen(savedOffers),
