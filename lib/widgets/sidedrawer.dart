@@ -28,6 +28,7 @@ class SideDrawer extends StatelessWidget {
           ),
           Divider(),
           ListTile(
+            onTap: () => tapHandler(context, '/keywords'),
             title: Row(
               children: [
                 Icon(Icons.fact_check),

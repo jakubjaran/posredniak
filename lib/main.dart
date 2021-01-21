@@ -8,6 +8,7 @@ import './widgets/list_item.dart';
 import './widgets/sidedrawer.dart';
 import './screens/offer_screen.dart';
 import './screens/saved_offers_screen.dart';
+import './screens/keywords_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -144,6 +145,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/saved-offers': (ctx) => SavedOffersScreen(savedOffers),
         '/offer': (ctx) => OfferScreen(saveOffer, savedOffers),
+        '/keywords': (ctx) => KeywordsScreen(),
       },
       home: Scaffold(
         appBar: AppBar(
