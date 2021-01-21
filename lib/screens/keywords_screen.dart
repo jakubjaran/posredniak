@@ -55,25 +55,38 @@ class KeywordsScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        child: ListView.builder(
-          itemBuilder: (ctx, index) => Container(
-            key: Key(keywords[index]),
-            margin: EdgeInsets.only(bottom: 10),
-            child: ListTile(
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-              tileColor: Colors.grey[900],
-              title: Text(keywords[index]),
-              trailing: IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () => showAlertDialog(context, keywords[index]),
+      body: keywords.length > 0
+          ? Container(
+              child: ListView.builder(
+                itemBuilder: (ctx, index) => Container(
+                  key: Key(keywords[index]),
+                  margin: EdgeInsets.only(bottom: 10),
+                  child: ListTile(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                    tileColor: Colors.grey[900],
+                    title: Text(keywords[index]),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () =>
+                          showAlertDialog(context, keywords[index]),
+                    ),
+                  ),
+                ),
+                itemCount: keywords.length,
+              ),
+            )
+          : Center(
+              child: Container(
+                width: 300,
+                child: Text(
+                  'Dodaj słowo klucz używając przycisku poniżej',
+                  style: TextStyle(fontSize: 18),
+                  textAlign: TextAlign.center,
+                  softWrap: true,
+                ),
               ),
             ),
-          ),
-          itemCount: keywords.length,
-        ),
-      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => showBottomSheet(context),

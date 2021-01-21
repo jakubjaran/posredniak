@@ -13,12 +13,19 @@ class SavedOffersScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Zapisane'),
       ),
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          return ListItem(savedOffers[index]);
-        },
-        itemCount: savedOffers.length,
-      ),
+      body: savedOffers.length > 0
+          ? ListView.builder(
+              itemBuilder: (context, index) {
+                return ListItem(savedOffers[index]);
+              },
+              itemCount: savedOffers.length,
+            )
+          : Center(
+              child: Text(
+                'Brak zapisanych ofert',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
     );
   }
 }
