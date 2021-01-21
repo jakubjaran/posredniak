@@ -21,7 +21,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   List<Offer> offers = [];
-  List<String> keywords = ['DORADCA', 'HANDLOWY'];
+  List<String> keywords = [];
   List<Offer> filteredOffers = [];
   List<Offer> savedOffers = [];
 
@@ -44,6 +44,7 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       offers = [];
       savedOffers = [];
+      keywords = [];
       isFetching = true;
       isFiltered = false;
     });
@@ -64,6 +65,13 @@ class _MyAppState extends State<MyApp> {
       var offer = parseOffer(element);
       setState(() {
         savedOffers.add(offer);
+      });
+    });
+
+    var keywordsCol = db.collection('keywords');
+    keywordsCol.find().forEach((element) {
+      setState(() {
+        keywords.add(element['keyword']);
       });
     });
 
@@ -99,6 +107,19 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  Future<void> saveOfferMongo(Offer offer, bool remove) async {
+    var db = await Mongo.Db.create(MONGO_URL);
+    await db.open();
+
+    var savedCol = db.collection('savedOffers');
+
+    if (remove) {
+      savedCol.remove(offer.json);
+    } else {
+      savedCol.insert(offer.json);
+    }
+  }
+
   void saveOffer(Offer offer) {
     if (savedOffers.contains(offer)) {
       setState(() {
@@ -113,17 +134,31 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  Future<void> saveOfferMongo(Offer offer, bool remove) async {
+  Future<void> addRemoveKeywordMongo(String keyword, bool remove) async {
     var db = await Mongo.Db.create(MONGO_URL);
     await db.open();
 
-    var savedCol = db.collection('savedOffers');
+    var keywordsCol = db.collection('keywords');
 
     if (remove) {
-      savedCol.remove(offer.json);
+      keywordsCol.remove({'keyword': keyword});
     } else {
-      savedCol.insert(offer.json);
+      keywordsCol.insert({'keyword': keyword});
     }
+  }
+
+  void addKeyword(String keyword) {
+    setState(() {
+      keywords.add(keyword);
+    });
+    addRemoveKeywordMongo(keyword, false);
+  }
+
+  void removeKeyword(String keyword) {
+    setState(() {
+      keywords.remove(keyword);
+    });
+    addRemoveKeywordMongo(keyword, true);
   }
 
   @override
@@ -139,13 +174,22 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Pośredniak',
       theme: ThemeData.dark().copyWith(
-          accentColor: Colors.blue,
-          backgroundColor: Colors.black,
-          scaffoldBackgroundColor: Colors.black),
+        accentColor: Colors.blue,
+        backgroundColor: Colors.black,
+        scaffoldBackgroundColor: Colors.black,
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
+        ),
+      ),
       routes: {
         '/saved-offers': (ctx) => SavedOffersScreen(savedOffers),
         '/offer': (ctx) => OfferScreen(saveOffer, savedOffers),
-        '/keywords': (ctx) => KeywordsScreen(),
+        '/keywords': (ctx) => KeywordsScreen(
+              keywords,
+              addKeyword,
+              removeKeyword,
+            ),
       },
       home: Scaffold(
         appBar: AppBar(
