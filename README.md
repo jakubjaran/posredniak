@@ -1,16 +1,24 @@
-# posredniak_app
+# posredniak
 
-A new Flutter project.
+It's my **flutter** app for displaying job offers provided by my **job_scraper**.
 
-## Getting Started
+It parse data from **mongoDB** with the help of **mongo_dart**.
 
-This project is a starting point for a Flutter application.
+In app you can save job offers you are interested to, and also you can apply keywords to show only certain offers.
 
-A few resources to get you started if this is your first Flutter project:
+It's very comfortable to have job offers from multiple sites in one place.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+That app is in polish language, but it's simple to translate it to your language.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## How to use it with your own job offers?
+
+If you want to use it check **'/lib/models/offer.dart'** file to get to know how job offers are structured.
+
+Then provide mongoDB url in **'/lib/SECRET.dart'** file as:
+
+    const MONGO_URL = 'your_mongo_db_url'
+
+and make some changes in **'/lib/main.dart'** to match your DB.
+
+Also there check how keywords work. They also use your DB.
