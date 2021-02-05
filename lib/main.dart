@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as Mongo;
 import 'package:flutter/services.dart';
+import 'package:posredniak_app/screens/all_offers_screen.dart';
+import 'package:posredniak_app/screens/filtered_offers_screen.dart';
 
 import './SECRET.dart';
 import './models/offer.dart';
@@ -25,8 +27,18 @@ class _MyAppState extends State<MyApp> {
   List<Offer> filteredOffers = [];
   List<Offer> savedOffers = [];
 
-  var isFiltered = false;
   var isFetching = false;
+
+  var selectedTabIndex = 0;
+
+  void selectTabHandler(int index) {
+    if (index == 1) {
+      filterOffers();
+    }
+    setState(() {
+      selectedTabIndex = index;
+    });
+  }
 
   Offer parseOffer(element) {
     var offer = Offer(
@@ -46,7 +58,6 @@ class _MyAppState extends State<MyApp> {
       savedOffers = [];
       keywords = [];
       isFetching = true;
-      isFiltered = false;
     });
 
     var db = await Mongo.Db.create(MONGO_URL);
@@ -88,7 +99,11 @@ class _MyAppState extends State<MyApp> {
     if (offers.length > 0) {
       offers.forEach((offer) {
         keywords.forEach((keyword) {
-          if (offer.title.toUpperCase().contains(keyword)) {
+          RegExp exp = new RegExp(
+            "\\b" + keyword + "\\b",
+            caseSensitive: false,
+          );
+          if (exp.hasMatch(offer.title)) {
             if (!filteredOffers.contains(offer)) {
               setState(() {
                 filteredOffers.add(offer);
@@ -98,13 +113,6 @@ class _MyAppState extends State<MyApp> {
         });
       });
     }
-  }
-
-  void toggleFilter(bool val) {
-    filterOffers();
-    setState(() {
-      isFiltered = val;
-    });
   }
 
   Future<void> saveOfferMongo(Offer offer, bool remove) async {
@@ -199,22 +207,21 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         appBar: AppBar(
           actions: [
-            Container(
-              child: Row(
-                children: [
-                  Switch(
-                    value: isFiltered,
-                    onChanged: toggleFilter,
-                    activeColor: Theme.of(context).accentColor,
-                  ),
-                  Icon(
-                    Icons.fact_check,
-                    color: isFiltered ? Colors.greenAccent : Colors.grey,
-                  ),
-                ],
-              ),
-            ),
             IconButton(icon: Icon(Icons.refresh), onPressed: fetchMongo),
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: selectTabHandler,
+          currentIndex: selectedTabIndex,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list_alt),
+              label: 'Wszystkie',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.fact_check),
+              label: 'Filtrowane',
+            ),
           ],
         ),
         drawer: Sidedrawer(),
@@ -240,19 +247,9 @@ class _MyAppState extends State<MyApp> {
                       ),
                     )
                   : RefreshIndicator(
-                      child: isFiltered
-                          ? ListView.builder(
-                              itemBuilder: (context, index) {
-                                return ListItem(filteredOffers[index]);
-                              },
-                              itemCount: filteredOffers.length,
-                            )
-                          : ListView.builder(
-                              itemBuilder: (context, index) {
-                                return ListItem(offers[index]);
-                              },
-                              itemCount: offers.length,
-                            ),
+                      child: selectedTabIndex == 0
+                          ? AllOffersScreen(offers)
+                          : FilteredOffersScreen(filteredOffers),
                       onRefresh: fetchMongo,
                     ),
             ),
