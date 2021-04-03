@@ -33,6 +33,12 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
+  void _selectTab(int index) {
+    setState(() {
+      _selectedTabIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,16 +48,16 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        onTap: (i) {},
+        onTap: _selectTab,
         currentIndex: _selectedTabIndex,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.list_alt),
-            label: 'Wszystkie',
+            icon: Icon(Icons.face_rounded),
+            label: 'Dla Mnie',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.fact_check),
-            label: 'Filtrowane',
+            icon: Icon(Icons.list_alt),
+            label: 'Wszystkie',
           ),
         ],
       ),
@@ -79,8 +85,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     )
                   : _selectedTabIndex == 0
-                      ? AllOffersScreen()
-                      : FilteredOffersScreen(),
+                      ? FilteredOffersScreen()
+                      : AllOffersScreen(),
               onRefresh: _fetchOffers,
             ),
           ),
