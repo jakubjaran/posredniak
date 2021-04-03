@@ -3,17 +3,13 @@ import 'package:flutter/material.dart';
 import '../widgets/new_keyword_sheet.dart';
 
 class KeywordsScreen extends StatelessWidget {
-  final List<String> keywords;
-  final Function addKeyword;
-  final Function removeKeyword;
-
-  KeywordsScreen(this.keywords, this.addKeyword, this.removeKeyword);
+  final List<String> keywords = [];
 
   void showBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (_) => NewKeyowrdSheet(addKeyword),
+      builder: (_) => NewKeyowrdSheet(),
     );
   }
 
@@ -24,15 +20,12 @@ class KeywordsScreen extends StatelessWidget {
         title: Text('Jesteś pewien?'),
         content: Text('Czy na pewno chcesz usunąć to słowo klucz?'),
         actions: [
-          FlatButton(
+          TextButton(
             onPressed: () => Navigator.of(context).pop(),
             child: Text('Anuluj'),
           ),
-          FlatButton(
-            onPressed: () {
-              removeKeyword(keyword);
-              Navigator.of(context).pop();
-            },
+          TextButton(
+            onPressed: () {},
             child: Text(
               'Usuń',
               style: TextStyle(color: Colors.redAccent),

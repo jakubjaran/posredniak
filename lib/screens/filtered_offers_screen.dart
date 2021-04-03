@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../models/offer.dart';
-import '../widgets/list_item.dart';
+import 'package:posredniak_app/widgets/list_item.dart';
 
 class FilteredOffersScreen extends StatelessWidget {
-  final List<Offer> offers;
-
-  FilteredOffersScreen(this.offers);
+  final offers = [];
 
   @override
   Widget build(BuildContext context) {

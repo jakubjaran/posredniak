@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import '../models/offer.dart';
-import '../widgets/list_item.dart';
+import 'package:posredniak_app/widgets/list_item.dart';
 
 class SavedOffersScreen extends StatelessWidget {
-  final List<Offer> savedOffers;
-
-  SavedOffersScreen(this.savedOffers);
-
+  final savedOffers = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
 class NewKeyowrdSheet extends StatelessWidget {
-  final Function addKeyword;
-
-  NewKeyowrdSheet(this.addKeyword);
-
   final TextEditingController keywordController = TextEditingController();
 
   @override
@@ -27,13 +23,8 @@ class NewKeyowrdSheet extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            RaisedButton(
-              onPressed: () {
-                addKeyword(
-                  keywordController.text.toUpperCase(),
-                );
-                Navigator.of(context).pop();
-              },
+            ElevatedButton(
+              onPressed: () {},
               child: Text('Dodaj'),
             ),
           ],
