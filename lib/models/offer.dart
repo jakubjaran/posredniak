@@ -6,7 +6,6 @@ class Offer {
   final String link;
   final String place;
   final String source;
-  final Map<String, dynamic> json;
 
   Offer({
     @required this.title,
@@ -14,6 +13,5 @@ class Offer {
     @required this.link,
     @required this.place,
     @required this.source,
-    @required this.json,
   });
 }

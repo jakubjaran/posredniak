@@ -13,8 +13,23 @@ class Offers with ChangeNotifier {
   }
 
   Future<void> fetchAndSetOffers() async {
-    final url = Uri.parse('http://jobscraper.jakubjaran.p3.tiktalik.io');
-    final response = await http.get(url);
-    print(json.decode(response.body));
+    try {
+      final url = Uri.parse('http://jobscraper.jakubjaran.p3.tiktalik.io');
+      final response = await http.get(url);
+      final offers = json.decode(response.body) as List;
+      offers.forEach((offer) {
+        final newOffer = Offer(
+          title: offer['title'],
+          link: offer['link'],
+          date: offer['date'],
+          place: offer['place'],
+          source: offer['source'],
+        );
+        _items.add(newOffer);
+      });
+      notifyListeners();
+    } catch (error) {
+      print(error);
+    }
   }
 }
