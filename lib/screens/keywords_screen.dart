@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/new_keyword_sheet.dart';
+import 'package:posredniak_app/widgets/new_keyword_sheet.dart';
 
 class KeywordsScreen extends StatelessWidget {
   final List<String> keywords = [];

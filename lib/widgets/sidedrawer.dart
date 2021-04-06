@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './sidedrawer_item.dart';
+import 'package:posredniak_app/widgets/sidedrawer_item.dart';
 
 class Sidedrawer extends StatelessWidget {
   @override

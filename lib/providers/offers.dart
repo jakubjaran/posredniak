@@ -5,8 +5,6 @@ import 'package:http/http.dart' as http;
 
 import 'package:posredniak_app/models/offer.dart';
 
-import '../models/offer.dart';
-
 class Offers with ChangeNotifier {
   List<Offer> _items = [];
 
