@@ -18,9 +18,17 @@ class FilteredOffersScreen extends StatelessWidget {
       );
     } else {
       return Center(
-        child: Text(
-          'Brak ofert pasujących do moich kryteriów.',
-          style: TextStyle(fontSize: 18),
+        child: ListView(
+          children: [
+            Container(
+              height: 500,
+              alignment: Alignment.center,
+              child: Text(
+                'Brak ofert pasujących do moich kryteriów.',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+          ],
         ),
       );
     }
