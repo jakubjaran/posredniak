@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:posredniak_app/widgets/list_item.dart';
+import 'package:posredniak_app/providers/offers.dart';
 
 class SavedOffersScreen extends StatelessWidget {
-  final savedOffers = [];
   @override
   Widget build(BuildContext context) {
+    final savedOffers = Provider.of<Offers>(context).savedOffets;
     return Scaffold(
       appBar: AppBar(
         title: Text('Zapisane'),

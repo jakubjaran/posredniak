@@ -18,7 +18,10 @@ class FilteredOffersScreen extends StatelessWidget {
       );
     } else {
       return Center(
-        child: Text('Brak ofert pasujących do moich kryteriów.'),
+        child: Text(
+          'Brak ofert pasujących do moich kryteriów.',
+          style: TextStyle(fontSize: 18),
+        ),
       );
     }
   }

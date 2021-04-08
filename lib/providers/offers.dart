@@ -100,7 +100,7 @@ class Offers with ChangeNotifier {
     return _savedOffers.indexWhere((offer) => offer.link == offerUrl);
   }
 
-  void saveOffer(Offer offer) {
+  void toggleSaveOffer(Offer offer) {
     final index = savedIndex(offer.link);
     if (index < 0) {
       _savedOffers.add(offer);
@@ -111,18 +111,12 @@ class Offers with ChangeNotifier {
         'place': offer.place,
         'source': offer.source,
       });
-      notifyListeners();
-    }
-  }
-
-  void deleteOffer(Offer offer) {
-    final index = savedIndex(offer.link);
-    if (index >= 0) {
+    } else {
       _savedOffers.removeAt(index);
       DBHelper.delete(
           'savedOffers.db', 'savedOffers', 'link = ?', [offer.link]);
-      notifyListeners();
     }
+    notifyListeners();
   }
 
   void fetchDB() async {
@@ -133,6 +127,16 @@ class Offers with ChangeNotifier {
     keywordsData.forEach((keywordData) {
       _keywords.add(keywordData['keyword']);
     });
-    print(savedOffersData);
+    _savedOffers = [];
+    savedOffersData.forEach((offerData) {
+      _savedOffers.add(Offer(
+        title: offerData['title'],
+        date: offerData['date'],
+        link: offerData['link'],
+        place: offerData['place'],
+        source: offerData['source'],
+      ));
+    });
+    notifyListeners();
   }
 }
