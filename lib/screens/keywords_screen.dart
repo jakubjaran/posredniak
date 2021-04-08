@@ -32,7 +32,6 @@ class KeywordsScreen extends StatelessWidget {
             },
             child: Text(
               'Usuń',
-              style: TextStyle(color: Colors.redAccent),
             ),
           ),
         ],

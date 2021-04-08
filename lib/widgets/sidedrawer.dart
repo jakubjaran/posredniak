@@ -10,9 +10,10 @@ class Sidedrawer extends StatelessWidget {
         children: [
           DrawerHeader(
             child: Center(
-              child: Text('Pośredniak', style: TextStyle(fontSize: 20)),
+              child: Text('Pośredniak',
+                  style: TextStyle(fontSize: 20, color: Colors.black)),
             ),
-            decoration: BoxDecoration(color: Colors.blue),
+            decoration: BoxDecoration(color: Theme.of(context).accentColor),
           ),
           SidedrawerItem(
             route: '/saved-offers',

@@ -30,7 +30,12 @@ class NewKeyowrdSheet extends StatelessWidget {
                   .addKeyword(keywordController.text.toUpperCase());
               Navigator.of(context).pop();
             },
-            child: Text('Dodaj'),
+            style: ElevatedButton.styleFrom(
+                primary: Theme.of(context).accentColor),
+            child: Text(
+              'Dodaj',
+              style: TextStyle(color: Colors.black),
+            ),
           ),
         ],
       ),
