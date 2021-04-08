@@ -27,6 +27,7 @@ class Offers with ChangeNotifier {
       {'keyword': keyword},
     );
     notifyListeners();
+    filterOffers();
   }
 
   void deleteKeyword(String keyword) {
@@ -38,13 +39,14 @@ class Offers with ChangeNotifier {
       [keyword],
     );
     notifyListeners();
+    filterOffers();
   }
 
   Future<void> fetchAndSetOffers() async {
     try {
-      final url = Uri.parse('http://jobscraper.jakubjaran.p3.tiktalik.io');
+      final url = Uri.parse('http://jobscraper.jakubjaran.p3.tiktalik.io:3000');
       final response = await http.get(url);
-      final offers = json.decode(response.body) as List;
+      final offers = json.decode(response.body);
       _items = [];
       offers.forEach((offer) {
         final newOffer = Offer(
