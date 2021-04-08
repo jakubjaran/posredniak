@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:posredniak_app/helpers/DB_helper.dart';
 import 'package:posredniak_app/models/offer.dart';
 
 class Offers with ChangeNotifier {
@@ -12,10 +13,31 @@ class Offers with ChangeNotifier {
     return [..._items];
   }
 
-  List<String> _keywords = ['Pracownik'];
+  List<String> _keywords = [];
 
   List<String> get keywords {
     return [..._keywords];
+  }
+
+  void addKeyword(String keyword) {
+    _keywords.add(keyword);
+    DBHelper.insert(
+      'keywords.db',
+      'keywords',
+      {'keyword': keyword},
+    );
+    notifyListeners();
+  }
+
+  void deleteKeyword(String keyword) {
+    _keywords.removeWhere((kwrd) => kwrd == keyword);
+    DBHelper.delete(
+      'keywords.db',
+      'keywords',
+      'keyword = ?',
+      [keyword],
+    );
+    notifyListeners();
   }
 
   Future<void> fetchAndSetOffers() async {
@@ -64,5 +86,51 @@ class Offers with ChangeNotifier {
       });
     });
     notifyListeners();
+  }
+
+  List<Offer> _savedOffers = [];
+
+  List<Offer> get savedOffets {
+    return [..._savedOffers];
+  }
+
+  int savedIndex(offerUrl) {
+    return _savedOffers.indexWhere((offer) => offer.link == offerUrl);
+  }
+
+  void saveOffer(Offer offer) {
+    final index = savedIndex(offer.link);
+    if (index < 0) {
+      _savedOffers.add(offer);
+      DBHelper.insert('savedOffers.db', 'savedOffers', {
+        'title': offer.title,
+        'date': offer.date,
+        'link': offer.link,
+        'place': offer.place,
+        'source': offer.source,
+      });
+      notifyListeners();
+    }
+  }
+
+  void deleteOffer(Offer offer) {
+    final index = savedIndex(offer.link);
+    if (index >= 0) {
+      _savedOffers.removeAt(index);
+      DBHelper.delete(
+          'savedOffers.db', 'savedOffers', 'link = ?', [offer.link]);
+      notifyListeners();
+    }
+  }
+
+  void fetchDB() async {
+    final keywordsData = await DBHelper.getData('keywords.db', 'keywords');
+    final savedOffersData =
+        await DBHelper.getData('savedOffers.db', 'savedOffers');
+    _keywords = [];
+    keywordsData.forEach((keywordData) {
+      _keywords.add(keywordData['keyword']);
+    });
+    print(savedOffersData);
   }
 }

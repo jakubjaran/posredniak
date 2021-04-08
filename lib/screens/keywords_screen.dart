@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'package:posredniak_app/providers/offers.dart';
 import 'package:posredniak_app/widgets/new_keyword_sheet.dart';
 
 class KeywordsScreen extends StatelessWidget {
-  final List<String> keywords = [];
-
   void showBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -25,7 +25,11 @@ class KeywordsScreen extends StatelessWidget {
             child: Text('Anuluj'),
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Provider.of<Offers>(context, listen: false)
+                  .deleteKeyword(keyword);
+              Navigator.of(context).pop();
+            },
             child: Text(
               'Usuń',
               style: TextStyle(color: Colors.redAccent),
@@ -38,6 +42,7 @@ class KeywordsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final keywords = Provider.of<Offers>(context).keywords;
     return Scaffold(
       appBar: AppBar(
         title: Text('Słowa Klucze'),

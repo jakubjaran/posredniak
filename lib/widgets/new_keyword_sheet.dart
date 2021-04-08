@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:posredniak_app/providers/offers.dart';
 
 class NewKeyowrdSheet extends StatelessWidget {
   final TextEditingController keywordController = TextEditingController();
@@ -6,29 +9,30 @@ class NewKeyowrdSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: MediaQuery.of(context).viewInsets,
-      child: Padding(
-        padding: EdgeInsets.all(40),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              maxLength: 20,
-              controller: keywordController,
-              autofocus: true,
-              decoration: InputDecoration(
-                hintText: 'Słowo Klucz',
-              ),
+      padding: EdgeInsets.all(40),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            maxLength: 20,
+            controller: keywordController,
+            autofocus: true,
+            decoration: InputDecoration(
+              hintText: 'Słowo Klucz',
             ),
-            SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('Dodaj'),
-            ),
-          ],
-        ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Provider.of<Offers>(context, listen: false)
+                  .addKeyword(keywordController.text.toUpperCase());
+              Navigator.of(context).pop();
+            },
+            child: Text('Dodaj'),
+          ),
+        ],
       ),
     );
   }

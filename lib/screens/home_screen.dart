@@ -30,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _fetchOffers();
+    Provider.of<Offers>(context, listen: false).fetchDB();
     super.initState();
   }
 
