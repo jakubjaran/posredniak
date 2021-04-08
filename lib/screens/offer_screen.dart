@@ -21,8 +21,38 @@ class OfferScreen extends StatelessWidget {
                 color: isSaved ? Colors.greenAccent : Colors.grey,
               ),
               onPressed: () {
-                Provider.of<Offers>(context, listen: false)
-                    .toggleSaveOffer(offer);
+                if (isSaved) {
+                  showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: Text('Na pewno?'),
+                      content: Text('Czy na pewno usunąć ofertę z zapisanych?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(ctx).pop();
+                          },
+                          child: Text('Anuluj'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Provider.of<Offers>(context, listen: false)
+                                .toggleSaveOffer(offer);
+                            Navigator.of(ctx).pop();
+                          },
+                          child: Text('Usuń'),
+                        )
+                      ],
+                    ),
+                  );
+                } else {
+                  Provider.of<Offers>(context, listen: false)
+                      .toggleSaveOffer(offer);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Zapisano oferte'),
+                    backgroundColor: Colors.greenAccent,
+                  ));
+                }
               },
             ),
           ],
