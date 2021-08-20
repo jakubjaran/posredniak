@@ -44,7 +44,7 @@ class Offers with ChangeNotifier {
 
   Future<void> fetchAndSetOffers() async {
     try {
-      final url = Uri.parse('http://jobscraper.jakubjaran.p3.tiktalik.io:3000');
+      final url = Uri.parse('http://jobscraper.jakubjaran.p5.tiktalik.io:3000');
       final response = await http.get(url);
       final offers = json.decode(response.body);
       _items = [];

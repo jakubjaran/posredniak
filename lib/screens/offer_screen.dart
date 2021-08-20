@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'package:posredniak_app/models/offer.dart';
 import 'package:posredniak_app/providers/offers.dart';
@@ -15,6 +16,10 @@ class OfferScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(offer.title),
           actions: [
+            IconButton(
+              icon: Icon(Icons.share),
+              onPressed: () => {Share.share(offer.link)},
+            ),
             IconButton(
               icon: Icon(
                 Icons.bookmark,
