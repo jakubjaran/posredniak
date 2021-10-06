@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:posredniak_app/widgets/sidedrawer.dart';
 
-import 'package:posredniak_app/screens/all_offers_screen.dart';
+import 'package:posredniak_app/screens/offers_screen.dart';
 import 'package:posredniak_app/screens/filtered_offers_screen.dart';
 
 import 'package:posredniak_app/providers/offers.dart';
@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   var _isFetching = false;
-  var _selectedTabIndex = 0;
+  var _selectedTabIndex = 1;
 
   Future<void> _fetchOffers() async {
     setState(() {
@@ -40,6 +40,41 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  Widget _tabSwitcher() {
+    switch (_selectedTabIndex) {
+      case 0:
+        return FilteredOffersScreen();
+        break;
+      case 1:
+        return OffersScreen(
+          key: ValueKey('all'),
+        );
+        break;
+      case 2:
+        return OffersScreen(
+          source: 'OLX.pl',
+          key: ValueKey('olx'),
+        );
+        break;
+      case 3:
+        return OffersScreen(
+          source: 'LM.pl',
+          key: ValueKey('lm'),
+        );
+        break;
+      case 4:
+        return new OffersScreen(
+          source: 'pracuj.pl',
+          key: ValueKey('pracuj'),
+        );
+        break;
+      default:
+        return OffersScreen(
+          key: ValueKey('all'),
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +86,8 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectTab,
         currentIndex: _selectedTabIndex,
+        selectedItemColor: Theme.of(context).accentColor,
+        showUnselectedLabels: true,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.face_rounded),
@@ -59,6 +96,18 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.list_alt),
             label: 'Wszystkie',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.filter_list),
+            label: 'OLX',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.filter_list),
+            label: 'LM',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.filter_list),
+            label: 'Pracuj',
           ),
         ],
       ),
@@ -85,9 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     )
-                  : _selectedTabIndex == 0
-                      ? FilteredOffersScreen()
-                      : AllOffersScreen(),
+                  : _tabSwitcher(),
               onRefresh: _fetchOffers,
             ),
           ),
