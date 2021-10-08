@@ -45,7 +45,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   image_path: "assets/icon.png"
-  adaptive_icon_background: "#00a8ff"
+  adaptive_icon_background: "#ffffff"
   adaptive_icon_foreground: "assets/icon_foreground.png"
 
 # The following section is specific to Flutter.
