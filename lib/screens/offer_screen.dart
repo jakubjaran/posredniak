@@ -23,7 +23,9 @@ class OfferScreen extends StatelessWidget {
             IconButton(
               icon: Icon(
                 Icons.bookmark,
-                color: isSaved ? Colors.greenAccent : Colors.grey,
+                color: isSaved
+                    ? Theme.of(context).colorScheme.secondary
+                    : Colors.grey,
               ),
               onPressed: () {
                 if (isSaved) {
@@ -45,7 +47,12 @@ class OfferScreen extends StatelessWidget {
                                 .toggleSaveOffer(offer);
                             Navigator.of(ctx).pop();
                           },
-                          child: Text('Usuń'),
+                          child: Text(
+                            'Usuń',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                          ),
                         )
                       ],
                     ),
@@ -54,8 +61,13 @@ class OfferScreen extends StatelessWidget {
                   Provider.of<Offers>(context, listen: false)
                       .toggleSaveOffer(offer);
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('Zapisano oferte'),
-                    backgroundColor: Colors.greenAccent,
+                    content: Text(
+                      'Zapisano oferte',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSecondary,
+                      ),
+                    ),
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
                   ));
                 }
               },

@@ -10,19 +10,23 @@ class SavedOffersScreen extends StatelessWidget {
     final savedOffers = Provider.of<Offers>(context).savedOffets;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Zapisane'),
+        title: Text('Zapisane oferty'),
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: savedOffers.length > 0
-          ? ListView.builder(
-              itemBuilder: (context, index) {
-                return ListItem(savedOffers[index]);
-              },
-              itemCount: savedOffers.length,
+          ? Container(
+              margin: EdgeInsets.only(top: 10),
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return ListItem(savedOffers[index]);
+                },
+                itemCount: savedOffers.length,
+              ),
             )
           : Center(
               child: Text(
                 'Brak zapisanych ofert',
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 16),
               ),
             ),
     );

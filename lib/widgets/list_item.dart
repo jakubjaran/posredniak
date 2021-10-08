@@ -12,13 +12,13 @@ class ListItem extends StatelessWidget {
   Color get sourceColor {
     switch (offer.source) {
       case 'LM.pl':
-        return Colors.orange[400];
+        return Colors.orange[300];
         break;
       case 'OLX.pl':
-        return Colors.teal[400];
+        return Colors.teal[300];
         break;
       case 'pracuj.pl':
-        return Colors.blue[600];
+        return Colors.blue;
         break;
       default:
         return Colors.white;
@@ -38,19 +38,28 @@ class ListItem extends StatelessWidget {
     initializeDateFormatting('pl_PL', null);
 
     return Container(
-      margin: EdgeInsets.only(bottom: 10),
+      margin: EdgeInsets.only(
+        bottom: 10,
+        left: 10,
+        right: 10,
+      ),
       child: InkWell(
         key: Key(offer.link),
         onTap: () => tapHandler(context),
         splashColor: sourceColor,
-        child: Ink(
+        borderRadius: BorderRadius.circular(5),
+        child: Container(
           height: 120,
           width: double.infinity,
           decoration: BoxDecoration(
-            border: Border(
-              left: BorderSide(color: sourceColor, width: 10),
-            ),
-            color: Colors.grey[900],
+            gradient: LinearGradient(stops: [
+              0.02,
+              0.02
+            ], colors: [
+              sourceColor,
+              Theme.of(context).colorScheme.surface.withAlpha(150)
+            ]),
+            borderRadius: BorderRadius.circular(5),
           ),
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           child: Column(
@@ -59,7 +68,7 @@ class ListItem extends StatelessWidget {
             children: [
               Text(
                 offer.title,
-                style: TextStyle(fontSize: 17),
+                style: TextStyle(fontSize: 16),
               ),
               Text(DateFormat('d MMMM y', 'pl_PL').format(date)),
               Text(offer.place.length > 50

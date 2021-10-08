@@ -21,18 +21,36 @@ class MyApp extends StatelessWidget {
       create: (ctx) => Offers(),
       child: MaterialApp(
         title: 'Pośredniak',
-        theme: ThemeData.dark().copyWith(
-          accentColor: Colors.greenAccent,
-          backgroundColor: Colors.black,
-          scaffoldBackgroundColor: Colors.black,
-          floatingActionButtonTheme: FloatingActionButtonThemeData(
-            backgroundColor: Colors.greenAccent,
-            foregroundColor: Colors.black,
-          ),
-          textSelectionTheme: TextSelectionThemeData(
-            cursorColor: Colors.greenAccent,
-            selectionColor: Colors.greenAccent,
-            selectionHandleColor: Colors.greenAccent,
+        // theme: ThemeData.dark().copyWith(
+        //   accentColor: Colors.greenAccent,
+        //   backgroundColor: Colors.black,
+        //   scaffoldBackgroundColor: Colors.black,
+        //   floatingActionButtonTheme: FloatingActionButtonThemeData(
+        //     backgroundColor: Colors.greenAccent,
+        //     foregroundColor: Colors.black,
+        //   ),
+        //   textSelectionTheme: TextSelectionThemeData(
+        //     cursorColor: Colors.greenAccent,
+        //     selectionColor: Colors.greenAccent,
+        //     selectionHandleColor: Colors.greenAccent,
+        //   ),
+        // ),
+        theme: ThemeData(
+          brightness: Brightness.dark,
+          colorScheme: ColorScheme(
+            brightness: Brightness.dark,
+            primary: Colors.blue,
+            secondary: Colors.lightBlue[400],
+            background: Colors.grey[900],
+            surface: Colors.grey[850],
+            error: Colors.red,
+            onPrimary: Colors.white,
+            onSecondary: Colors.white,
+            onBackground: Colors.white,
+            onSurface: Colors.white,
+            onError: Colors.white,
+            primaryVariant: Colors.blue[900],
+            secondaryVariant: Colors.blue[800],
           ),
         ),
         routes: {

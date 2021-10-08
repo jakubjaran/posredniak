@@ -13,11 +13,13 @@ class Sidedrawer extends StatelessWidget {
               child: Text('Pośredniak',
                   style: TextStyle(fontSize: 20, color: Colors.black)),
             ),
-            decoration: BoxDecoration(color: Theme.of(context).accentColor),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.secondary,
+            ),
           ),
           SidedrawerItem(
             route: '/saved-offers',
-            title: 'Zapisane',
+            title: 'Zapisane oferty',
             icon: Icons.bookmark,
           ),
           Divider(),

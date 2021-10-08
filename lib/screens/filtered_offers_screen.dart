@@ -24,8 +24,8 @@ class FilteredOffersScreen extends StatelessWidget {
               height: 500,
               alignment: Alignment.center,
               child: Text(
-                'Brak ofert pasujących do moich kryteriów.',
-                style: TextStyle(fontSize: 18),
+                'Brak pasujących ofert',
+                style: TextStyle(fontSize: 16),
               ),
             ),
           ],

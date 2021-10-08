@@ -35,10 +35,11 @@ class NewKeyowrdSheet extends StatelessWidget {
                 Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).accentColor),
+                primary: Theme.of(context).colorScheme.secondary,
+                onPrimary: Theme.of(context).colorScheme.onSecondary,
+              ),
               child: Text(
                 'Dodaj',
-                style: TextStyle(color: Colors.black),
               ),
             ),
           ],

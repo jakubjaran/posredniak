@@ -9,6 +9,11 @@ class KeywordsScreen extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(15),
+        ),
+      ),
       builder: (_) => NewKeyowrdSheet(),
     );
   }
@@ -32,6 +37,9 @@ class KeywordsScreen extends StatelessWidget {
             },
             child: Text(
               'Usuń',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.error,
+              ),
             ),
           ),
         ],
@@ -52,26 +60,27 @@ class KeywordsScreen extends StatelessWidget {
           ),
         ],
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: keywords.length > 0
-          ? Container(
-              child: ListView.builder(
-                itemBuilder: (ctx, index) => Container(
-                  key: Key(keywords[index]),
-                  margin: EdgeInsets.only(bottom: 10),
-                  child: ListTile(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                    tileColor: Colors.grey[900],
-                    title: Text(keywords[index]),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete),
-                      onPressed: () =>
-                          showAlertDialog(context, keywords[index]),
-                    ),
+          ? ListView.builder(
+              itemBuilder: (ctx, index) => Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                ),
+                key: Key(keywords[index]),
+                margin: EdgeInsets.only(bottom: 10),
+                child: ListTile(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                  tileColor: Theme.of(context).colorScheme.surface,
+                  title: Text(keywords[index]),
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () => showAlertDialog(context, keywords[index]),
                   ),
                 ),
-                itemCount: keywords.length,
               ),
+              itemCount: keywords.length,
             )
           : Center(
               child: Container(

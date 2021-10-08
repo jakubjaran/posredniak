@@ -78,6 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         actions: [
           IconButton(
@@ -90,8 +91,11 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectTab,
         currentIndex: _selectedTabIndex,
-        selectedItemColor: Theme.of(context).accentColor,
+        selectedItemColor: Theme.of(context).colorScheme.secondary,
+        unselectedItemColor: Theme.of(context).colorScheme.onSurface,
         showUnselectedLabels: true,
+        unselectedFontSize: 10,
+        unselectedIconTheme: IconThemeData(size: 16),
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.face_rounded),
@@ -126,7 +130,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(Colors.blue),
+                            valueColor: AlwaysStoppedAnimation(
+                              Theme.of(context).colorScheme.secondary,
+                            ),
                           ),
                           SizedBox(
                             height: 20,
@@ -138,7 +144,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     )
-                  : _tabSwitcher(),
+                  : Container(
+                      margin: EdgeInsets.only(top: 10), child: _tabSwitcher()),
               onRefresh: _fetchOffers,
             ),
           ),
