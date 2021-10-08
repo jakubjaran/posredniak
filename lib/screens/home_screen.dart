@@ -139,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           Text(
                             'Szukanie ofert...',
-                            style: TextStyle(fontSize: 18),
+                            style: TextStyle(fontSize: 16),
                           ),
                         ],
                       ),

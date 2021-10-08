@@ -19,6 +19,25 @@ class Offers with ChangeNotifier {
     return [..._keywords];
   }
 
+  String _scraperUrl;
+
+  String get scraperUrl {
+    return _scraperUrl;
+  }
+
+  void setScraperUrl(url) {
+    _scraperUrl = url;
+    DBHelper.insert('scraperUrl.db', 'scraperUrl', {'url': _scraperUrl});
+    notifyListeners();
+  }
+
+  Future<void> fetchAndSetScraperUrl() async {
+    final scraperUrlData =
+        await DBHelper.getData('scraperUrl.db', 'scraperUrl');
+    _scraperUrl = scraperUrlData[0]['url'];
+    notifyListeners();
+  }
+
   void addKeyword(String keyword) {
     _keywords.add(keyword);
     DBHelper.insert(
@@ -43,25 +62,30 @@ class Offers with ChangeNotifier {
   }
 
   Future<void> fetchAndSetOffers() async {
-    try {
-      final url = Uri.parse('http://jobscraper.jakubjaran.p5.tiktalik.io:3000');
-      final response = await http.get(url);
-      final offers = json.decode(response.body);
-      _items = [];
-      offers.forEach((offer) {
-        final newOffer = Offer(
-          title: offer['title'],
-          link: offer['link'],
-          date: offer['date'],
-          place: offer['place'],
-          source: offer['source'],
-        );
-        _items.add(newOffer);
-      });
-      filterOffers();
-      notifyListeners();
-    } catch (error) {
-      print(error);
+    if (_scraperUrl != null) {
+      try {
+        final url = Uri.parse(_scraperUrl);
+        final response = await http.get(url);
+        final offers = json.decode(response.body);
+        _items = [];
+        offers.forEach((offer) {
+          final newOffer = Offer(
+            title: offer['title'],
+            link: offer['link'],
+            date: offer['date'],
+            place: offer['place'],
+            source: offer['source'],
+          );
+          _items.add(newOffer);
+        });
+        filterOffers();
+        notifyListeners();
+      } catch (error) {
+        print(error);
+      }
+    } else {
+      await fetchAndSetScraperUrl();
+      fetchAndSetOffers();
     }
   }
 

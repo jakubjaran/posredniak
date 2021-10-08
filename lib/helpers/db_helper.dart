@@ -14,6 +14,8 @@ class DBHelper {
           case 'savedOffers.db':
             return db.execute(
                 'CREATE TABLE savedOffers(title TEXT, date TEXT, link TEXT, place TEXT, source TEXT)');
+          case 'scraperUrl.db':
+            return db.execute('CREATE TABLE scraperUrl(url TEXT)');
           default:
         }
       },

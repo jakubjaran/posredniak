@@ -11,7 +11,9 @@ class Sidedrawer extends StatelessWidget {
           DrawerHeader(
             child: Center(
               child: Text('Pośredniak',
-                  style: TextStyle(fontSize: 20, color: Colors.black)),
+                  style: TextStyle(
+                    fontSize: 20,
+                  )),
             ),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.secondary,
@@ -27,6 +29,12 @@ class Sidedrawer extends StatelessWidget {
             route: '/keywords',
             title: 'Słowa Klucze',
             icon: Icons.fact_check,
+          ),
+          Divider(),
+          SidedrawerItem(
+            route: '/settings',
+            title: 'Ustawienia',
+            icon: Icons.settings,
           ),
           Divider(),
         ],

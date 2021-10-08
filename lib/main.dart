@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:posredniak_app/screens/settings_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'package:posredniak_app/screens/offer_screen.dart';
@@ -21,20 +22,6 @@ class MyApp extends StatelessWidget {
       create: (ctx) => Offers(),
       child: MaterialApp(
         title: 'Pośredniak',
-        // theme: ThemeData.dark().copyWith(
-        //   accentColor: Colors.greenAccent,
-        //   backgroundColor: Colors.black,
-        //   scaffoldBackgroundColor: Colors.black,
-        //   floatingActionButtonTheme: FloatingActionButtonThemeData(
-        //     backgroundColor: Colors.greenAccent,
-        //     foregroundColor: Colors.black,
-        //   ),
-        //   textSelectionTheme: TextSelectionThemeData(
-        //     cursorColor: Colors.greenAccent,
-        //     selectionColor: Colors.greenAccent,
-        //     selectionHandleColor: Colors.greenAccent,
-        //   ),
-        // ),
         theme: ThemeData(
           brightness: Brightness.dark,
           colorScheme: ColorScheme(
@@ -57,6 +44,7 @@ class MyApp extends StatelessWidget {
           '/saved-offers': (ctx) => SavedOffersScreen(),
           '/offer': (ctx) => OfferScreen(),
           '/keywords': (ctx) => KeywordsScreen(),
+          '/settings': (ctx) => SettingsScreen(),
         },
         home: HomeScreen(),
       ),
