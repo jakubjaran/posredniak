@@ -80,6 +80,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         actions: [
+          IconButton(
+            icon: Icon(Icons.bookmarks),
+            onPressed: () => Navigator.of(context).pushNamed('/saved-offers'),
+          ),
           IconButton(icon: Icon(Icons.refresh), onPressed: _fetchOffers),
         ],
       ),
