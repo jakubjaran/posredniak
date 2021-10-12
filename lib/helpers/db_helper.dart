@@ -43,6 +43,11 @@ class DBHelper {
     );
   }
 
+  static Future<void> drop(String dbName, String table) async {
+    final db = await DBHelper.database(dbName);
+    db.delete(table);
+  }
+
   static Future<List<Map<String, dynamic>>> getData(
       String dbName, String table) async {
     final db = await DBHelper.database(dbName);

@@ -15,16 +15,28 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   var _isFetching = false;
+  var _isScraperUrlValid = true;
   var _selectedTabIndex = 1;
 
   Future<void> _fetchOffers() async {
     setState(() {
       _isFetching = true;
     });
-    await Provider.of<Offers>(context, listen: false).fetchAndSetOffers();
+    await Provider.of<Offers>(context, listen: false).fetchAndSetScraperUrl();
+    final isScraperUrlValid =
+        await Provider.of<Offers>(context, listen: false).fetchAndSetOffers();
     setState(() {
       _isFetching = false;
     });
+    if (isScraperUrlValid) {
+      setState(() {
+        _isScraperUrlValid = true;
+      });
+    } else {
+      setState(() {
+        _isScraperUrlValid = false;
+      });
+    }
   }
 
   @override
@@ -144,8 +156,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     )
-                  : Container(
-                      margin: EdgeInsets.only(top: 10), child: _tabSwitcher()),
+                  : _isScraperUrlValid
+                      ? Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: _tabSwitcher())
+                      : Center(
+                          child: Text('Błędny adres scrapera.'),
+                        ),
               onRefresh: _fetchOffers,
             ),
           ),

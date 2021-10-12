@@ -25,9 +25,10 @@ class Offers with ChangeNotifier {
     return _scraperUrl;
   }
 
-  void setScraperUrl(url) {
+  Future<void> setScraperUrl(url) async {
     _scraperUrl = url;
-    DBHelper.insert('scraperUrl.db', 'scraperUrl', {'url': _scraperUrl});
+    await DBHelper.drop('scraperUrl.db', 'scraperUrl');
+    await DBHelper.insert('scraperUrl.db', 'scraperUrl', {'url': url});
     notifyListeners();
   }
 
@@ -61,31 +62,28 @@ class Offers with ChangeNotifier {
     filterOffers();
   }
 
-  Future<void> fetchAndSetOffers() async {
-    if (_scraperUrl != null) {
-      try {
-        final url = Uri.parse(_scraperUrl);
-        final response = await http.get(url);
-        final offers = json.decode(response.body);
-        _items = [];
-        offers.forEach((offer) {
-          final newOffer = Offer(
-            title: offer['title'],
-            link: offer['link'],
-            date: offer['date'],
-            place: offer['place'],
-            source: offer['source'],
-          );
-          _items.add(newOffer);
-        });
-        filterOffers();
-        notifyListeners();
-      } catch (error) {
-        print(error);
-      }
-    } else {
-      await fetchAndSetScraperUrl();
-      fetchAndSetOffers();
+  Future<bool> fetchAndSetOffers() async {
+    try {
+      final url = Uri.parse(_scraperUrl);
+      final response = await http.get(url);
+      final offers = json.decode(response.body);
+      _items = [];
+      offers.forEach((offer) {
+        final newOffer = Offer(
+          title: offer['title'],
+          link: offer['link'],
+          date: offer['date'],
+          place: offer['place'],
+          source: offer['source'],
+        );
+        _items.add(newOffer);
+      });
+      filterOffers();
+      notifyListeners();
+      return true;
+    } catch (error) {
+      print(error);
+      return false;
     }
   }
 

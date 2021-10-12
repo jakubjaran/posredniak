@@ -30,7 +30,7 @@ class OffersScreen extends StatelessWidget {
           },
           itemCount: offers.length,
           separatorBuilder: (context, index) {
-            if (index == 0 || index == offers.length - 1) {
+            if (index == offers.length - 1) {
               return SizedBox.shrink();
             } else {
               final firstDate = offers[index].date.substring(0, 10);
