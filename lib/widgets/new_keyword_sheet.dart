@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:posredniak_app/providers/offers.dart';
+import '../providers/offers.dart';
 
 class NewKeyowrdSheet extends StatelessWidget {
   final TextEditingController keywordController = TextEditingController();

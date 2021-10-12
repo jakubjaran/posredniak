@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 
-import 'package:posredniak_app/models/offer.dart';
-import 'package:posredniak_app/providers/offers.dart';
+import '../models/offer.dart';
+import '../providers/offers.dart';
 
 class OfferScreen extends StatelessWidget {
   @override

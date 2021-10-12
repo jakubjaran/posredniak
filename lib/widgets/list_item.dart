@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-import 'package:posredniak_app/models/offer.dart';
+import '../models/offer.dart';
 
 class ListItem extends StatelessWidget {
   final Offer offer;

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:posredniak_app/models/offer.dart';
-import 'package:posredniak_app/widgets/date_divider.dart';
+import '../models/offer.dart';
+import '../widgets/date_divider.dart';
 import 'package:provider/provider.dart';
 
-import 'package:posredniak_app/widgets/list_item.dart';
+import '../widgets/list_item.dart';
 
-import 'package:posredniak_app/providers/offers.dart';
+import '../providers/offers.dart';
 
 class OffersScreen extends StatelessWidget {
   final String source;

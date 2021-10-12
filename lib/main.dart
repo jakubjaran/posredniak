@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:posredniak_app/screens/settings_screen.dart';
+import 'screens/settings_screen.dart';
 import 'package:provider/provider.dart';
 
-import 'package:posredniak_app/screens/offer_screen.dart';
-import 'package:posredniak_app/screens/home_screen.dart';
-import 'package:posredniak_app/screens/saved_offers_screen.dart';
-import 'package:posredniak_app/screens/keywords_screen.dart';
+import 'screens/offer_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/saved_offers_screen.dart';
+import 'screens/keywords_screen.dart';
 
-import 'package:posredniak_app/providers/offers.dart';
+import 'providers/offers.dart';
 
 void main() {
   runApp(MyApp());

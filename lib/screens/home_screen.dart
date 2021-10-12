@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:posredniak_app/widgets/sidedrawer.dart';
+import '../widgets/sidedrawer.dart';
 
-import 'package:posredniak_app/screens/offers_screen.dart';
-import 'package:posredniak_app/screens/filtered_offers_screen.dart';
+import 'offers_screen.dart';
+import 'filtered_offers_screen.dart';
 
-import 'package:posredniak_app/providers/offers.dart';
+import '../providers/offers.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

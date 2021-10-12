@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:posredniak_app/helpers/DB_helper.dart';
-import 'package:posredniak_app/models/offer.dart';
+import '../helpers/DB_helper.dart';
+import '../models/offer.dart';
 
 class Offers with ChangeNotifier {
   List<Offer> _items = [];
